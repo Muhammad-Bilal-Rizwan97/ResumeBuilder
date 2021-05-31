@@ -1,24 +1,24 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, TextInput, Text, View, ScrollView, Button, Alert } from "react-native";
+import { SafeAreaView, StyleSheet, TextInput, Text, View, ScrollView, Button, Alert ,TouchableOpacity} from "react-native";
 
 const Form = () => {
-  const [name, onChangeName] = React.useState("");
-  const [email, onChangeEmail] = React.useState("");
-  const [number, onChangeNumber] = React.useState("");
-  const [title, onChangeTitle] = React.useState("");
-  const [school, onChangeSchool] = React.useState("");
-  const [startFromSchool, onChangeStartFromSchool] = React.useState("");
-  const [endToSchool, onChangeEndToSchool] = React.useState("");
-  const [college, onChangeCollege] = React.useState("");
-  const [startFromCollege, onChangeStartFromCollege] = React.useState("");
-  const [endToCollege, onChangeEndToCollege] = React.useState("");
-  const [university, onChangeUniversity] = React.useState("");
-  const [startFromUniversity, onChangeStartFromUniversity] = React.useState("");
-  const [endToUniversity, onChangeEndToUniversity] = React.useState("");
-  const [master, onChangeMaster] = React.useState("");
-  const [startFromMaster, onChangeStartFromMaster] = React.useState("");
-  const [endToMaster, onChangeEndToMaster] = React.useState("");
-  const [skills, onChangeSkills] = React.useState("");
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [number, setNumber] = React.useState("");
+  const [title, setTitle] = React.useState("");
+  const [school, setSchool] = React.useState("");
+  const [startFromSchool, setStartFromSchool] = React.useState("");
+  const [endToSchool, setEndToSchool] = React.useState("");
+  const [college, setCollege] = React.useState("");
+  const [startFromCollege, setStartFromCollege] = React.useState("");
+  const [endToCollege, setEndToCollege] = React.useState("");
+  const [university, setUniversity] = React.useState("");
+  const [startFromUniversity, setStartFromUniversity] = React.useState("");
+  const [endToUniversity, setEndToUniversity] = React.useState("");
+  const [master, setMaster] = React.useState("");
+  const [startFromMaster, setStartFromMaster] = React.useState("");
+  const [endToMaster, setEndToMaster] = React.useState("");
+  const [skills, setSkills] = React.useState("");
 
 
   return (
@@ -31,45 +31,45 @@ const Form = () => {
     <SafeAreaView style={styles.body}>
       <TextInput
         style={styles.input}
-        onChangeText={onChangeName}
+        onChangeText={setName}
         value={name}
         placeholder="Username"
       />
       <TextInput
         style={styles.input}
-        onChangeText={onChangeTitle}
+        onChangeText={setTitle}
         value={title}
         placeholder="Title"
       />
       <TextInput
         style={styles.input}
-        onChangeText={onChangeEmail}
+        onChangeText={setEmail}
         value={email}
         placeholder="Email"
       />
       <TextInput
         style={styles.input}
-        onChangeText={onChangeNumber}
+        onChangeText={setNumber}
         value={number}
         placeholder="Mobile Number"
         keyboardType="numeric"
       />
       <TextInput
         style={styles.input}
-        onChangeText={onChangeSchool}
+        onChangeText={setSchool}
         value={school}
         placeholder="School"
       />
       <View style={{ flexDirection:'row' }}>
       <TextInput
         style={styles.inputInline}
-        onChangeText={onChangeStartFromSchool}
+        onChangeText={setStartFromSchool}
         value={startFromSchool}
         placeholder="StartFrom"
       />
       <TextInput
         style={styles.inputInline}
-        onChangeText={onChangeEndToSchool}
+        onChangeText={setEndToSchool}
         value={endToSchool}
         placeholder="EndTo"
       />
@@ -77,20 +77,20 @@ const Form = () => {
 
       <TextInput
         style={styles.input}
-        onChangeText={onChangeCollege}
+        onChangeText={setCollege}
         value={college}
         placeholder="College"
       />
       <View style={{ flexDirection:'row' }}>
       <TextInput
         style={styles.inputInline}
-        onChangeText={onChangeStartFromCollege}
+        onChangeText={setStartFromCollege}
         value={startFromCollege}
         placeholder="StartFrom"
       />
       <TextInput
         style={styles.inputInline}
-        onChangeText={onChangeEndToCollege}
+        onChangeText={setEndToCollege}
         value={endToCollege}
         placeholder="EndTo"
       />
@@ -98,20 +98,20 @@ const Form = () => {
 
       <TextInput
         style={styles.input}
-        onChangeText={onChangeUniversity}
+        onChangeText={setUniversity}
         value={university}
         placeholder="University"
       />
       <View style={{ flexDirection:'row' }}>
       <TextInput
         style={styles.inputInline}
-        onChangeText={onChangeStartFromUniversity}
+        onChangeText={setStartFromUniversity}
         value={startFromUniversity}
         placeholder="StartFrom"
       />
       <TextInput
         style={styles.inputInline}
-        onChangeText={onChangeEndToUniversity}
+        onChangeText={setEndToUniversity}
         value={endToUniversity}
         placeholder="EndTo"
       />
@@ -119,20 +119,20 @@ const Form = () => {
 
       <TextInput
         style={styles.input}
-        onChangeText={onChangeMaster}
+        onChangeText={setMaster}
         value={master}
         placeholder="Master"
       />
       <View style={{ flexDirection:'row' }}>
       <TextInput
         style={styles.inputInline}
-        onChangeText={onChangeStartFromMaster}
+        onChangeText={setStartFromMaster}
         value={startFromMaster}
         placeholder="StartFrom"
       />
       <TextInput
         style={styles.inputInline}
-        onChangeText={onChangeEndToMaster}
+        onChangeText={setEndToMaster}
         value={endToMaster}
         placeholder="EndTo"
       />
@@ -140,16 +140,14 @@ const Form = () => {
 
       <TextInput
         style={styles.input}
-        onChangeText={onChangeSkills}
+        onChangeText={setSkills}
         value={skills}
         placeholder="Skills"
       />
 
-      <Button
-        style= {styles.buttonSubmit}
-        title="Submit"
-        onPress={() => Alert.alert('Button with adjusted color pressed')}
-      />
+      <TouchableOpacity style={{backgroundColor:'#494dff' , width:80 ,height:40, justifyContent:'center',borderRadius:50}} onPress={() =>{ handleSubmit()}}>
+        <Text style={{alignSelf:'center', color:"#FFFFFF"}}>Submit</Text>
+      </TouchableOpacity>
       
     </SafeAreaView>
     </ScrollView>
@@ -158,21 +156,16 @@ const Form = () => {
 };
 
 const styles = StyleSheet.create({
-  world:{
-    marginTop: 40,
-    height: 40,
-    margin: 12,
-    width:250,
-    borderWidth: 1
-  },
   container:{
     backgroundColor: 'white'
   },
   header:{
-    height: 80,
+    height: 200,
     paddingTop: 38,
     backgroundColor: '#2D3748',
-    alignItems: 'center',
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20
+    
     
   },
   title: {
@@ -195,15 +188,19 @@ const styles = StyleSheet.create({
     margin: 12,
     width:250,
     borderWidth: 1,
-    textAlign: 'center'
+    textAlign: 'center',
+    borderRadius:50,
+    borderColor:'red'
   
   },
   inputInline: {
     height: 40,
-    margin: 12,
+   margin:12,
     width: 113,
     borderWidth: 1,
-    textAlign: 'center'
+    textAlign: 'center',
+    borderRadius:50,
+    borderColor:'red'
   },
   buttonSubmit: {
       height: 40,
@@ -212,7 +209,8 @@ const styles = StyleSheet.create({
       width: 250,
       borderWidth: 1,
       textAlign: 'center',
-      backgroundColor: '#2D3748'
+      backgroundColor: '#2D3748',
+
   }
 });
 
