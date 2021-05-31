@@ -3,11 +3,12 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Form from './components/Form';
 import Login from './components/Login';
+import Register from './components/Register';
 
 export default function App() {
   return (
     <View>
-      <Login />
+      <Register />
     </View>
   );
 }
