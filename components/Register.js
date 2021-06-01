@@ -24,16 +24,16 @@ function Register({navigation}) {
               Alert.alert("Successful Register",`${res.data.user.email} Registered Successfully`)
               navigation.navigate("Login")
             } catch (e) {
-              console.log(e)
+              console.log(e.response)
               
             }
           } 
             
           }).catch(err=>{
-            Alert.alert("Error","Email is already in use")})
+            Alert.alert("Error",err.response.data.error.split(":")[2])})
         }
         else{
-          Alert.alert("Error","Password must be of 6 digits")
+          Alert.alert("Error","Password must contain at least 6 characters")
         }
         }
         

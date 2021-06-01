@@ -36,7 +36,7 @@ exports.login = (req,res)=>{
     User.findOne({email},(err,user)=>{
         if(err||!user){
             return res.status(400).json({
-                error:'User with that email not not exist.Please Signup'
+                error:'User with that email does not exist.Please Register yourself'
             });
         }
         // if user is found make sure the email and password matches
