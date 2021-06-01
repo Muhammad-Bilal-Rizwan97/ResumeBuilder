@@ -8,6 +8,7 @@ require('dotenv').config()
 const colors = require('colors')
 // import routes
 const authRoutes = require('./routes/auth')
+const resumeRoutes = require('./routes/resume')
 
  //app
 const app = express()
@@ -33,6 +34,7 @@ app.use(cors())
 
 // routes
 app.use('/api',authRoutes)
+app.use('/api/resume',resumeRoutes)
 
 const port = 8088
 
