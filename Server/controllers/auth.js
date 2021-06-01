@@ -2,7 +2,7 @@ const User = require('../models/User')
 const {errorHandler} = require('../helpers/dbErrorHandler')
 
  
-exports.signup =(req,res)=>{
+exports.register =(req,res)=>{
     
     const user = new User(req.body)
  
@@ -29,7 +29,32 @@ exports.signup =(req,res)=>{
 }
 
 
+exports.login = (req,res)=>{
+    // find the user based on email
+    const {email,password}=req.body;
+    console.log(req.body)
+    User.findOne({email},(err,user)=>{
+        if(err||!user){
+            return res.status(400).json({
+                error:'User with that email not not exist.Please Signup'
+            });
+        }
+        // if user is found make sure the email and password matches
+        // create authenticate method in user model
+        if(!user.authenticate(password)){
+            return res.status(401).json({
+                error:'Email And Password Dont Match'
+            })
+        }
+       
+        const {_id,username,email}= user
+       
+        res.json({user:{_id,email,username}});
 
+
+
+    })
+}
 
 // exports.signout= (req,res)=>{
 

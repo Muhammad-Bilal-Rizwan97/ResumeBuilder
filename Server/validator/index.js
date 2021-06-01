@@ -1,4 +1,4 @@
-exports.userSignupValidator = (req,res,next)=>{
+exports.userRegisterValidator = (req,res,next)=>{
 
   console.log(req.body)
   req.check('email','Email must be between 3 to 32 characters')
