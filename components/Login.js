@@ -17,11 +17,13 @@ function Login() {
             email:emailLogin,
             password:passwordLogin
           }
-          Axios.post("http://192.168.0.102:8088/api/login",user).then(async(res)=>{
+          Axios.post("http://192.168.0.101:8088/api/login",user).then(async(res)=>{
 
           if(res){
             try {
               await AsyncStorage.setItem('email', res.data.user.email)
+              await AsyncStorage.setItem('id', res.data.user._id)
+              console.log(res.data.user._id)
               Alert.alert("Successful Login",`${res.data.user.email} Logged In Successfully`)
               navigation.navigate("Form")
             } catch (e) {
@@ -61,7 +63,7 @@ function Login() {
                 />
                 <TextInput
                     style={styles.input}
-                    onChangeText={setPasswordLogin}
+                    onChangeText={(pass)=>setPasswordLogin(pass)}
                     value={passwordLogin}
                     placeholder="Password"
                     secureTextEntry={true}

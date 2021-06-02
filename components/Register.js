@@ -16,7 +16,7 @@ function Register({navigation}) {
             email:emailRegister,
             password:passwordRegister
           }
-          Axios.post("http://192.168.0.102:8088/api/register",user).then(async(res)=>{
+          Axios.post("http://192.168.0.101:8088/api/register",user).then(async(res)=>{
 
           if(res){
             try {
@@ -56,15 +56,16 @@ function Register({navigation}) {
             <SafeAreaView style={styles.body}>
                 <TextInput
                     style={styles.input}
-                    onChangeText={setEmailRegister}
+                    onChangeText={(email)=>setEmailRegister(email)}
                     value={emailRegister}
                     placeholder="Email"
                 />
                 <TextInput
                     style={styles.input}
-                    onChangeText={setPasswordRegister}
+                    onChangeText={(pass)=>setPasswordRegister(pass)}
                     value={passwordRegister}
                     placeholder="Password"
+                    secureTextEntry={true}
                 />
                 <TouchableOpacity style={{backgroundColor:'#494dff' , width:80 ,height:40, justifyContent:'center',borderRadius:50}} onPress={() =>handleSubmit()}>
                   <Text style={{alignSelf:'center', color:"#FFFFFF"}}>Register</Text>

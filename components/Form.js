@@ -1,11 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { SafeAreaView, StyleSheet, TextInput, Text, View, ScrollView, Button, Alert ,TouchableOpacity} from "react-native";
+import Axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Form = () => {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [number, setNumber] = React.useState("");
   const [title, setTitle] = React.useState("");
+  const [objective, setObjective] = React.useState("");
   const [school, setSchool] = React.useState("");
   const [startFromSchool, setStartFromSchool] = React.useState("");
   const [endToSchool, setEndToSchool] = React.useState("");
@@ -19,7 +22,58 @@ const Form = () => {
   const [startFromMaster, setStartFromMaster] = React.useState("");
   const [endToMaster, setEndToMaster] = React.useState("");
   const [skills, setSkills] = React.useState("");
+  const [userId, setId] = React.useState("");
 
+  useEffect(() => {
+    AsyncStorage.getItem('id').then(user =>{
+      if(user)
+      {
+        console.log(user)
+        setId(user)
+      }
+    })
+     
+  }, [])
+
+  const handleSubmit = async()=>{
+
+    const resume = {
+      username:name,
+      email:email,
+      title:title,
+      description:objective,
+      phone:number,
+      skills:skills,
+      school:school,
+      dateFromS:startFromSchool,
+      dateToS:endToSchool,
+      highSchool:college,
+      dateFromH:startFromCollege,
+      dateToH:endToCollege,
+      university:university,
+      dateFromU:startFromUniversity,
+      dateToU:endToUniversity,
+      masters:master,
+      dateFromM:startFromMaster,
+      dateToM:endToMaster,
+      user:userId
+    }
+        Axios.post("http://192.168.0.101:8088/api/resume/create",resume).then(async(res)=>{
+
+        if(res){
+          try {
+            
+            Alert.alert("Success","Form Successfully")
+          } catch (e) {
+            console.log(e)
+            
+          }
+        } 
+          
+        }).catch(err=>{
+          console.log(err.response) })
+      
+  }
 
   return (
     <View style={styles.container}>
@@ -31,45 +85,51 @@ const Form = () => {
     <SafeAreaView style={styles.body}>
       <TextInput
         style={styles.input}
-        onChangeText={setName}
+        onChangeText={(name)=>setName(name)}
         value={name}
         placeholder="Username"
       />
       <TextInput
         style={styles.input}
-        onChangeText={setTitle}
+        onChangeText={(title)=>setTitle(title)}
         value={title}
         placeholder="Title"
       />
       <TextInput
         style={styles.input}
-        onChangeText={setEmail}
+        onChangeText={(obj)=>setObjective(obj)}
+        value={objective}
+        placeholder="Objective"
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={(email)=>setEmail(email)}
         value={email}
         placeholder="Email"
       />
       <TextInput
         style={styles.input}
-        onChangeText={setNumber}
+        onChangeText={(num)=>setNumber(num)}
         value={number}
         placeholder="Mobile Number"
         keyboardType="numeric"
       />
       <TextInput
         style={styles.input}
-        onChangeText={setSchool}
+        onChangeText={(sch)=>setSchool(sch)}
         value={school}
         placeholder="School"
       />
       <View style={{ flexDirection:'row' }}>
       <TextInput
         style={styles.inputInline}
-        onChangeText={setStartFromSchool}
+        onChangeText={(startS)=>setStartFromSchool(startS)}
         value={startFromSchool}
         placeholder="StartFrom"
       />
       <TextInput
         style={styles.inputInline}
-        onChangeText={setEndToSchool}
+        onChangeText={(endS)=>setEndToSchool(endS)}
         value={endToSchool}
         placeholder="EndTo"
       />
@@ -77,20 +137,20 @@ const Form = () => {
 
       <TextInput
         style={styles.input}
-        onChangeText={setCollege}
+        onChangeText={(coll)=>setCollege(coll)}
         value={college}
         placeholder="College"
       />
       <View style={{ flexDirection:'row' }}>
       <TextInput
         style={styles.inputInline}
-        onChangeText={setStartFromCollege}
+        onChangeText={(startC)=>setStartFromCollege(startC)}
         value={startFromCollege}
         placeholder="StartFrom"
       />
       <TextInput
         style={styles.inputInline}
-        onChangeText={setEndToCollege}
+        onChangeText={(endC)=>setEndToCollege(endC)}
         value={endToCollege}
         placeholder="EndTo"
       />
@@ -98,20 +158,20 @@ const Form = () => {
 
       <TextInput
         style={styles.input}
-        onChangeText={setUniversity}
+        onChangeText={(uni)=>setUniversity(uni)}
         value={university}
         placeholder="University"
       />
       <View style={{ flexDirection:'row' }}>
       <TextInput
         style={styles.inputInline}
-        onChangeText={setStartFromUniversity}
+        onChangeText={(startU)=>setStartFromUniversity(startU)}
         value={startFromUniversity}
         placeholder="StartFrom"
       />
       <TextInput
         style={styles.inputInline}
-        onChangeText={setEndToUniversity}
+        onChangeText={(endU)=>setEndToUniversity(endU)}
         value={endToUniversity}
         placeholder="EndTo"
       />
@@ -119,20 +179,20 @@ const Form = () => {
 
       <TextInput
         style={styles.input}
-        onChangeText={setMaster}
+        onChangeText={(mas)=>setMaster(mas)}
         value={master}
         placeholder="Master"
       />
       <View style={{ flexDirection:'row' }}>
       <TextInput
         style={styles.inputInline}
-        onChangeText={setStartFromMaster}
+        onChangeText={(startM)=>setStartFromMaster(startM)}
         value={startFromMaster}
         placeholder="StartFrom"
       />
       <TextInput
         style={styles.inputInline}
-        onChangeText={setEndToMaster}
+        onChangeText={(endM)=>setEndToMaster(endM)}
         value={endToMaster}
         placeholder="EndTo"
       />
@@ -140,7 +200,7 @@ const Form = () => {
 
       <TextInput
         style={styles.input}
-        onChangeText={setSkills}
+        onChangeText={(skill)=>setSkills(skill)}
         value={skills}
         placeholder="Skills"
       />
