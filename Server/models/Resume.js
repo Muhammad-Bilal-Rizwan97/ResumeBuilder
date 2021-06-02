@@ -78,19 +78,53 @@ const resumeSchema = new mongoose.Schema({
   masters:{
     type:String
   },
-  experienceTitle:{
-    type:Array
+  experience1Title:{
+    type:String,
+    
   },
-  experienceDescription:{
-    type:Array
+  experience1Description:{
+    type:String,
+    
   },
-  experienceStart:{
-    type:Array,
-    default:["09/2021"]
+  dateFromExp1:{
+    type:String,
+    default:"09/2021"
   },
-  experienceEnd:{
-    type:Array,
-    default:["09/2021"]
+  dateToExp1:{
+    type:String,
+    default:"09/2021"
+  },
+  experience2Title:{
+    type:String,
+    
+  },
+  experience2Description:{
+    type:String,
+    
+  },
+  dateFromExp2:{
+    type:String,
+    default:"09/2021"
+  },
+  dateToExp2:{
+    type:String,
+    default:"09/2021"
+  },
+  experience3Title:{
+    type:String,
+    
+  },
+  experience3Description:{
+    type:String,
+    
+  },
+  dateFromExp3:{
+    type:String,
+    default:"09/2021"
+  },
+  dateToExp3:{
+    type:String,
+    default:"09/2021"
   },
   user:{
     type:ObjectId,
