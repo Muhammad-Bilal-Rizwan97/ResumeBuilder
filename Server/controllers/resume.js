@@ -2,7 +2,7 @@ const Resume = require('../models/Resume')
 const {errorHandler} = require('../helpers/dbErrorHandler')
 exports.create =async (req,res)=>{
   
-  const resume2 = await Resume.findOne({email:req.body.email})
+  const resume2 = await Resume.findOne({user:req.body.user})
     if(resume2){
         try{
         const resume3 = await Resume.updateOne(req.body._id,req.body)
@@ -36,39 +36,4 @@ exports.create =async (req,res)=>{
   
  
   
-}
-
-exports.read =async (req,res)=>{
-
-
-    const resume  = await Resume.findOne({user:req.params.user});
-    
-    if(resume){
-        res.send(resume)
-
-    }
-    else{
-        res.status(404).json({
-            error:false
-        });  
-    }
-   
-
-}
-exports.deleteR =async (req,res)=>{
-
-
-    const resume  = await Resume.deleteOne({user:req.params.user});
-    
-    if(resume){
-        res.send(resume)
-
-    }
-    else{
-        res.status(404).json({
-            error:false
-        });  
-    }
-   
-
 }

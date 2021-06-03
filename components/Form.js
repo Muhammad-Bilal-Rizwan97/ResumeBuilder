@@ -1,16 +1,20 @@
 import React, {useEffect} from "react";
-import { SafeAreaView, StyleSheet, TextInput, Text, View, ScrollView, Button, Alert ,TouchableOpacity} from "react-native";
+import { SafeAreaView, StyleSheet, TextInput, Text, View, ScrollView, Button, Alert ,TouchableOpacity, Picker} from "react-native";
 import Axios from 'axios'
 import * as IntentLauncher from 'expo-intent-launcher';
 import * as Print from 'expo-print'
 import * as FileSystem from 'expo-file-system';
+import RadioButtonRN from 'radio-buttons-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import RadioButton from 'radio-button-react-native';
 
 const Form = () => {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [number, setNumber] = React.useState("");
   const [title, setTitle] = React.useState("");
+  const [address, setAddress] = React.useState("");
   const [objective, setObjective] = React.useState("");
   const [school, setSchool] = React.useState("");
   const [startFromSchool, setStartFromSchool] = React.useState("");
@@ -21,10 +25,7 @@ const Form = () => {
   const [university, setUniversity] = React.useState("");
   const [startFromUniversity, setStartFromUniversity] = React.useState("");
   const [endToUniversity, setEndToUniversity] = React.useState("");
-  const [master, setMaster] = React.useState("");
-  const [startFromMaster, setStartFromMaster] = React.useState("");
-  const [endToMaster, setEndToMaster] = React.useState("");
-  const [skills, setSkills] = React.useState("");
+  const [skills, setSkills] = React.useState([]);
   const [userId, setId] = React.useState("");
   const [experience1Title, setExperience1Title] = React.useState("");
   const [experience1Description, setExperience1Description] = React.useState("");
@@ -39,8 +40,10 @@ const Form = () => {
   const [startFromExperience3, setStartFromExperience3] = React.useState("");
   const [endToExperience3, setEndToExperience3] = React.useState("");
   const [data1,setData1] = React.useState({})
+  const [layout,setLayout] = React.useState("WETE")
 
   useEffect(() => {
+    Alert.alert("Information","Enter your complete personal details!! With your School, College and Unversity information!! and Enter atleast 2 work experience/project!! As it give good impression ")
     AsyncStorage.getItem('id').then(user =>{
       if(user)
       {
@@ -52,7 +55,6 @@ const Form = () => {
     })
      
   }, [])
-
 
   const handleSubmit = async()=>{
 
@@ -115,6 +117,7 @@ const Form = () => {
       username:name,
       email:email,
       title:title,
+      address:address,
       description:objective,
       phone:number,
       skills:skills,
@@ -127,9 +130,6 @@ const Form = () => {
       university:university,
       dateFromU:startFromUniversity,
       dateToU:endToUniversity,
-      masters:master,
-      dateFromM:startFromMaster,
-      dateToM:endToMaster,
       user:userId,
       experience1Title:experience1Title,
       experience1Description:experience1Description,
@@ -148,8 +148,7 @@ const Form = () => {
     Axios.post("http://192.168.0.101:8088/api/resume/create",resume).then(async(res)=>{
         if(res){
           try {
-            
-            Alert.alert("Success","Form Added Successfully")
+            console.log(res)
           } catch (e) {
             console.log(e)
             
@@ -159,406 +158,1283 @@ const Form = () => {
         }).catch(err=>{
           console.log(err.response) })
 
-          let htmlContent=  `
-          <!DOCTYPE html>
+          let htmlContent;
+
+  if(layout == "WETE"){
+    if(experience3Title=="" && experience3Description=="" && startFromExperience3=="" && endToExperience3==""){
+      htmlContent=  `
+    <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Resume/CV Design</title>
-	<link rel="stylesheet" href="styles.css">
-	<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+<meta charset="UTF-8">
+<title>Resume/CV Design</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 </head>
 <style>
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  list-style: none;
-  font-family: "Montserrat", sans-serif;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+list-style: none;
+font-family: "Montserrat", sans-serif;
 }
 
 body {
-  background: #585c68;
-  font-size: 14px;
-  line-height: 22px;
-  color: #555555;
+background: #585c68;
+font-size: 14px;
+line-height: 22px;
+color: #555555;
 }
 
 .bold {
-  font-weight: 700;
-  font-size: 20px;
-  text-transform: uppercase;
+font-weight: 700;
+font-size: 20px;
+text-transform: uppercase;
 }
 
 .semi-bold {
-  font-weight: 500;
-  font-size: 16px;
+font-weight: 500;
+font-size: 16px;
 }
 
 .resume {
-  width: 800px;
-  height: auto;
-  display: flex;
-  margin: 50px auto;
+width: 800px;
+height: auto;
+display: flex;
+margin: 50px auto;
 }
 
 .resume .resume_left {
-  width: 280px;
-  background: #0bb5f4;
-}
-
-.resume .resume_left .resume_profile {
-  width: 100%;
-  height: 280px;
-}
-
-.resume .resume_left .resume_profile img {
-  width: 100%;
-  height: 100%;
+width: 280px;
+background: #0bb5f4;
 }
 
 .resume .resume_left .resume_content {
-  padding: 0 25px;
+padding: 0 25px;
 }
 
 .resume .title {
-  margin-bottom: 20px;
+margin-bottom: 20px;
 }
 
 .resume .resume_left .bold {
-  color: #fff;
+color: #fff;
 }
 
 .resume .resume_left .regular {
-  color: #b1eaff;
+color: #b1eaff;
 }
 
 .resume .resume_item {
-  padding: 25px 0;
-  border-bottom: 2px solid #b1eaff;
+padding: 25px 0;
+border-bottom: 2px solid #b1eaff;
 }
 
 .resume .resume_left .resume_item:last-child,
 .resume .resume_right .resume_item:last-child {
-  border-bottom: 0px;
+border-bottom: 0px;
 }
 
 .resume .resume_left ul li {
-  display: flex;
-  margin-bottom: 10px;
-  align-items: center;
+display: flex;
+margin-bottom: 10px;
+align-items: center;
 }
 
 .resume .resume_left ul li:last-child {
-  margin-bottom: 0;
+margin-bottom: 0;
 }
 
-.resume .resume_left ul li .icon {
-  width: 35px;
-  height: 35px;
-  background: #fff;
-  color: #0bb5f4;
-  border-radius: 50%;
-  margin-right: 15px;
-  font-size: 16px;
-  position: relative;
-}
-
-.resume .icon i,
 .resume .resume_right .resume_hobby ul li i {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
 }
 
 .resume .resume_left ul li .data {
-  color: #b1eaff;
+color: #b1eaff;
 }
 
 .resume .resume_left .resume_skills ul li {
-  display: flex;
-  margin-bottom: 10px;
-  color: #b1eaff;
-  justify-content: space-between;
-  align-items: center;
+display: flex;
+margin-bottom: 1px;
+color: #b1eaff;
+justify-content: space-between;
+align-items: center;
 }
 
 .resume .resume_left .resume_skills ul li .skill_name {
-  width: 25%;
-}
-
-.resume .resume_left .resume_skills ul li .skill_progress {
-  width: 60%;
-  margin: 0 5px;
-  height: 5px;
-  background: #009fd9;
-  position: relative;
-}
-
-.resume .resume_left .resume_skills ul li .skill_per {
-  width: 15%;
-}
-
-.resume .resume_left .resume_skills ul li .skill_progress span {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background: #fff;
+width: 80%;
 }
 
 .resume .resume_left .resume_social .semi-bold {
-  color: #fff;
-  margin-bottom: 3px;
+color: #fff;
+margin-bottom: 3px;
 }
 
 .resume .resume_right {
-  width: 520px;
-  background: #fff;
-  padding: 25px;
+width: 520px;
+background: #fff;
+padding: 25px;
 }
 
 .resume .resume_right .bold {
-  color: #0bb5f4;
+color: #0bb5f4;
 }
 
 .resume .resume_right .resume_work ul,
 .resume .resume_right .resume_education ul {
-  padding-left: 40px;
-  overflow: hidden;
+padding-left: 40px;
+overflow: hidden;
 }
 
 .resume .resume_right ul li {
-  position: relative;
+position: relative;
 }
 
 .resume .resume_right ul li .date {
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 15px;
+font-size: 16px;
+font-weight: 500;
+margin-bottom: 15px;
 }
 
 .resume .resume_right ul li .info {
-  margin-bottom: 20px;
+margin-bottom: 20px;
 }
 
 .resume .resume_right ul li:last-child .info {
-  margin-bottom: 0;
+margin-bottom: 0;
 }
 
 .resume .resume_right .resume_work ul li:before,
 .resume .resume_right .resume_education ul li:before {
-  content: "";
-  position: absolute;
-  top: 5px;
-  left: -25px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  border: 2px solid #0bb5f4;
+content: "";
+position: absolute;
+top: 5px;
+left: -25px;
+width: 6px;
+height: 6px;
+border-radius: 50%;
+border: 2px solid #0bb5f4;
 }
 
 .resume .resume_right .resume_work ul li:after,
 .resume .resume_right .resume_education ul li:after {
-  content: "";
-  position: absolute;
-  top: 14px;
-  left: -21px;
-  width: 2px;
-  height: 115px;
-  background: #0bb5f4;
+content: "";
+position: absolute;
+top: 14px;
+left: -21px;
+width: 2px;
+height: 115px;
+background: #0bb5f4;
 }
 
 .resume .resume_right .resume_hobby ul {
-  display: flex;
-  justify-content: space-between;
+display: flex;
+justify-content: space-between;
 }
 
 .resume .resume_right .resume_hobby ul li {
-  width: 80px;
-  height: 80px;
-  border: 2px solid #0bb5f4;
-  border-radius: 50%;
-  position: relative;
-  color: #0bb5f4;
+width: 80px;
+height: 80px;
+border: 2px solid #0bb5f4;
+border-radius: 50%;
+position: relative;
+color: #0bb5f4;
 }
 
 .resume .resume_right .resume_hobby ul li i {
-  font-size: 30px;
+font-size: 30px;
 }
 
 .resume .resume_right .resume_hobby ul li:before {
-  content: "";
-  position: absolute;
-  top: 40px;
-  right: -52px;
-  width: 50px;
-  height: 2px;
-  background: #0bb5f4;
+content: "";
+position: absolute;
+top: 40px;
+right: -52px;
+width: 50px;
+height: 2px;
+background: #0bb5f4;
 }
 
 .resume .resume_right .resume_hobby ul li:last-child:before {
-  display: none;
+display: none;
 }
 
 </style>
 <body>
 
 <div class="resume">
-   <div class="resume_left">
-     <div class="resume_content">
-       <div class="resume_item resume_info">
-         <div class="title">
-           <p class="bold">${name}</p>
-           <p class="regular">${title}</p>
-         </div>
-         <ul>
-           <li>
-             <div class="data">
-               21 Street, Texas <br /> USA
-             </div>
-           </li>
-           <li>
-             <div class="data">
-               ${number}
-             </div>
-           </li>
-           <li>
-             <div class="data">
-               ${email}
-             </div>
-           </li>
-         </ul>
+<div class="resume_left">
+<div class="resume_content">
+ <div class="resume_item resume_info">
+   <div class="title">
+     <p class="bold">${name}</p>
+     <p class="regular">${title}</p>
+   </div>
+   <ul>
+     <li>
+       <div class="data">
+         ${address}
        </div>
-       <div class="resume_item resume_skills">
-         <div class="title">
-           <p class="bold">skill's</p>
-         </div>
-         <ul>
-           <li>
-             <div class="skill_name">
-               HTML
-             </div>
-             <div class="skill_progress">
-               <span style="width: 80%;"></span>
-             </div>
-             <div class="skill_per">80%</div>
-           </li>
-           <li>
-             <div class="skill_name">
-               CSS
-             </div>
-             <div class="skill_progress">
-               <span style="width: 70%;"></span>
-             </div>
-             <div class="skill_per">70%</div>
-           </li>
-           <li>
-             <div class="skill_name">
-               SASS
-             </div>
-             <div class="skill_progress">
-               <span style="width: 90%;"></span>
-             </div>
-             <div class="skill_per">90%</div>
-           </li>
-           <li>
-             <div class="skill_name">
-               JS
-             </div>
-             <div class="skill_progress">
-               <span style="width: 60%;"></span>
-             </div>
-             <div class="skill_per">60%</div>
-           </li>
-           <li>
-             <div class="skill_name">
-               JQUERY
-             </div>
-             <div class="skill_progress">
-               <span style="width: 88%;"></span>
-             </div>
-             <div class="skill_per">88%</div>
-           </li>
-         </ul>
+     </li>
+     <li>
+       <div class="data">
+         ${number}
        </div>
-     </div>
-  </div>
-  <div class="resume_right">
-    <div class="resume_item resume_about">
-        <div class="title">
-           <p class="bold">About us</p>
-         </div>
-        <p>${objective}</p>
+     </li>
+     <li>
+       <div class="data">
+         ${email}
+       </div>
+     </li>
+   </ul>
+ </div>
+ <div class="resume_item resume_skills">
+   <div class="title">
+     <p class="bold">Skills</p>
+   </div>
+   <ul>
+   ${skills.map((val,index)=>{
+    return `<li>
+    <div class="skill_name">
+      ${val}
     </div>
-    <div class="resume_item resume_work">
-        <div class="title">
-           <p class="bold">Work Experience</p>
-         </div>
-        <ul>
-            <li>
-                <div class="date">${startFromExperience1} - ${endToExperience1}</div> 
-                <div class="info">
-                     <p class="semi-bold">${experience1Title}</p> 
-                  <p>${experience1Description}</p>
-                </div>
-            </li>
-            <li>
-              <div class="date">${startFromExperience2} - ${endToExperience2}</div>
-              <div class="info">
-                     <p class="semi-bold">${experience2Title}</p> 
-                  <p>${experience2Description}</p>
-                </div>
-            </li>
-            <li>
-              <div class="date">${startFromExperience3} - ${endToExperience3}</div>
-              <div class="info">
-                     <p class="semi-bold">${experience3Title}</p> 
-                  <p>${experience3Description}</p>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="resume_item resume_education">
-      <div class="title">
-           <p class="bold">Education</p>
-         </div>
-      <ul>
-            <li>
-                <div class="date">${startFromSchool} - ${endToSchool}</div> 
-                <div class="info">
-                     <p class="semi-bold">${school}</p>
-                </div>
-            </li>
-            <li>
-              <div class="date">${startFromCollege} - ${endToCollege}</div>
-              <div class="info">
-                     <p class="semi-bold">${college}</p> 
-                </div>
-            </li>
-            <li>
-              <div class="date">${startFromUniversity} - ${endToUniversity}</div>
-              <div class="info">
-                     <p class="semi-bold">${university}</p> 
-                </div>
-            </li>
-            <li>
-              <div class="date">${startFromMaster} - ${endToMaster}</div>
-              <div class="info">
-                     <p class="semi-bold">${master}</p> 
-                </div>
-            </li>
-        </ul>
-    </div>
-  </div>
+  </li>`
+  })}
+   </ul>
+ </div>
+</div>
+</div>
+<div class="resume_right">
+<div class="resume_item resume_about">
+  <div class="title">
+     <p class="bold">About us</p>
+   </div>
+  <p>${objective}</p>
+</div>
+<div class="resume_item resume_work">
+  <div class="title">
+     <p class="bold">Work Experience/Project</p>
+   </div>
+  <ul>
+      <li>
+        <div class="date">${startFromExperience2} - ${endToExperience2}</div>
+        <div class="info">
+               <p class="semi-bold">${experience2Title}</p> 
+            <p>${experience2Description}</p>
+          </div>
+      </li>
+      <li>
+          <div class="date">${startFromExperience1} - ${endToExperience1}</div> 
+          <div class="info">
+               <p class="semi-bold">${experience1Title}</p> 
+            <p>${experience1Description}</p>
+          </div>
+      </li>
+      
+  </ul>
+</div>
+<div class="resume_item resume_education">
+<div class="title">
+     <p class="bold">Education</p>
+   </div>
+<ul>
+      <li>
+        <div class="date">${startFromUniversity} - ${endToUniversity}</div>
+        <div class="info">
+               <p class="semi-bold">${university}</p> 
+          </div>
+      </li>
+      <li>
+        <div class="date">${startFromCollege} - ${endToCollege}</div>
+        <div class="info">
+               <p class="semi-bold">${college}</p> 
+          </div>
+      </li>
+      <li>
+          <div class="date">${startFromSchool} - ${endToSchool}</div> 
+          <div class="info">
+               <p class="semi-bold">${school}</p>
+          </div>
+      </li>
+  </ul>
+</div>
+</div>
 </div>
 
 </body>
 </html>
-      `;
+`;
+    }
+    else{
+      htmlContent=  `
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Resume/CV Design</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+</head>
+<style>
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+list-style: none;
+font-family: "Montserrat", sans-serif;
+}
+
+body {
+background: #585c68;
+font-size: 14px;
+line-height: 22px;
+color: #555555;
+}
+
+.bold {
+font-weight: 700;
+font-size: 20px;
+text-transform: uppercase;
+}
+
+.semi-bold {
+font-weight: 500;
+font-size: 16px;
+}
+
+.resume {
+width: 800px;
+height: auto;
+display: flex;
+margin: 50px auto;
+}
+
+.resume .resume_left {
+width: 280px;
+background: #0bb5f4;
+}
+
+.resume .resume_left .resume_content {
+padding: 0 25px;
+}
+
+.resume .title {
+margin-bottom: 20px;
+}
+
+.resume .resume_left .bold {
+color: #fff;
+}
+
+.resume .resume_left .regular {
+color: #b1eaff;
+}
+
+.resume .resume_item {
+padding: 25px 0;
+border-bottom: 2px solid #b1eaff;
+}
+
+.resume .resume_left .resume_item:last-child,
+.resume .resume_right .resume_item:last-child {
+border-bottom: 0px;
+}
+
+.resume .resume_left ul li {
+display: flex;
+margin-bottom: 10px;
+align-items: center;
+}
+
+.resume .resume_left ul li:last-child {
+margin-bottom: 0;
+}
+
+.resume .resume_right .resume_hobby ul li i {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+.resume .resume_left ul li .data {
+color: #b1eaff;
+}
+
+.resume .resume_left .resume_skills ul li {
+display: flex;
+margin-bottom: 10px;
+color: #b1eaff;
+justify-content: space-between;
+align-items: center;
+}
+
+.resume .resume_left .resume_skills ul li .skill_name {
+width: 25%;
+}
+
+.resume .resume_left .resume_social .semi-bold {
+color: #fff;
+margin-bottom: 3px;
+}
+
+.resume .resume_right {
+width: 520px;
+background: #fff;
+padding: 25px;
+}
+
+.resume .resume_right .bold {
+color: #0bb5f4;
+}
+
+.resume .resume_right .resume_work ul,
+.resume .resume_right .resume_education ul {
+padding-left: 40px;
+overflow: hidden;
+}
+
+.resume .resume_right ul li {
+position: relative;
+}
+
+.resume .resume_right ul li .date {
+font-size: 16px;
+font-weight: 500;
+margin-bottom: 15px;
+}
+
+.resume .resume_right ul li .info {
+margin-bottom: 20px;
+}
+
+.resume .resume_right ul li:last-child .info {
+margin-bottom: 0;
+}
+
+.resume .resume_right .resume_work ul li:before,
+.resume .resume_right .resume_education ul li:before {
+content: "";
+position: absolute;
+top: 5px;
+left: -25px;
+width: 6px;
+height: 6px;
+border-radius: 50%;
+border: 2px solid #0bb5f4;
+}
+
+.resume .resume_right .resume_work ul li:after,
+.resume .resume_right .resume_education ul li:after {
+content: "";
+position: absolute;
+top: 14px;
+left: -21px;
+width: 2px;
+height: 115px;
+background: #0bb5f4;
+}
+
+.resume .resume_right .resume_hobby ul {
+display: flex;
+justify-content: space-between;
+}
+
+.resume .resume_right .resume_hobby ul li {
+width: 80px;
+height: 80px;
+border: 2px solid #0bb5f4;
+border-radius: 50%;
+position: relative;
+color: #0bb5f4;
+}
+
+.resume .resume_right .resume_hobby ul li i {
+font-size: 30px;
+}
+
+.resume .resume_right .resume_hobby ul li:before {
+content: "";
+position: absolute;
+top: 40px;
+right: -52px;
+width: 50px;
+height: 2px;
+background: #0bb5f4;
+}
+
+.resume .resume_right .resume_hobby ul li:last-child:before {
+display: none;
+}
+
+</style>
+<body>
+
+<div class="resume">
+<div class="resume_left">
+<div class="resume_content">
+ <div class="resume_item resume_info">
+   <div class="title">
+     <p class="bold">${name}</p>
+     <p class="regular">${title}</p>
+   </div>
+   <ul>
+     <li>
+       <div class="data">
+         ${address}
+       </div>
+     </li>
+     <li>
+       <div class="data">
+         ${number}
+       </div>
+     </li>
+     <li>
+       <div class="data">
+         ${email}
+       </div>
+     </li>
+   </ul>
+ </div>
+ <div class="resume_item resume_skills">
+   <div class="title">
+     <p class="bold">Skills</p>
+   </div>
+   <ul>
+   ${skills.map((val,index)=>{
+    return `<li>
+    <div class="skill_name">
+      ${val}
+    </div>
+  </li>`
+  })}
+   </ul>
+ </div>
+</div>
+</div>
+<div class="resume_right">
+<div class="resume_item resume_about">
+  <div class="title">
+     <p class="bold">About us</p>
+   </div>
+  <p>${objective}</p>
+</div>
+<div class="resume_item resume_work">
+  <div class="title">
+     <p class="bold">Work Experience/Project</p>
+   </div>
+  <ul>
+  <li>
+  <div class="date">${startFromExperience3} - ${endToExperience3}</div>
+  <div class="info">
+         <p class="semi-bold">${experience3Title}</p> 
+      <p>${experience3Description}</p>
+    </div>
+</li>
+<li>
+        <div class="date">${startFromExperience2} - ${endToExperience2}</div>
+        <div class="info">
+               <p class="semi-bold">${experience2Title}</p> 
+            <p>${experience2Description}</p>
+          </div>
+      </li>
+      <li>
+          <div class="date">${startFromExperience1} - ${endToExperience1}</div> 
+          <div class="info">
+               <p class="semi-bold">${experience1Title}</p> 
+            <p>${experience1Description}</p>
+          </div>
+      </li>
+      
+  </ul>
+</div>
+<div class="resume_item resume_education">
+<div class="title">
+     <p class="bold">Education</p>
+   </div>
+<ul>
+      <li>
+        <div class="date">${startFromUniversity} - ${endToUniversity}</div>
+        <div class="info">
+               <p class="semi-bold">${university}</p> 
+          </div>
+      </li>
+      <li>
+        <div class="date">${startFromCollege} - ${endToCollege}</div>
+        <div class="info">
+               <p class="semi-bold">${college}</p> 
+          </div>
+      </li>
+      <li>
+          <div class="date">${startFromSchool} - ${endToSchool}</div> 
+          <div class="info">
+               <p class="semi-bold">${school}</p>
+          </div>
+      </li>
+  </ul>
+</div>
+</div>
+</div>
+
+</body>
+</html>
+`;
+    }
+    
+  }
+
+  if(layout == "ETWE"){
+    if(experience3Title=="" && experience3Description=="" && startFromExperience3=="" && endToExperience3==""){
+      htmlContent=  `
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Resume/CV Design</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+</head>
+<style>
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+list-style: none;
+font-family: "Montserrat", sans-serif;
+}
+
+body {
+background: #585c68;
+font-size: 14px;
+line-height: 22px;
+color: #555555;
+}
+
+.bold {
+font-weight: 700;
+font-size: 20px;
+text-transform: uppercase;
+}
+
+.semi-bold {
+font-weight: 500;
+font-size: 16px;
+}
+
+.resume {
+width: 800px;
+height: auto;
+display: flex;
+margin: 50px auto;
+}
+
+.resume .resume_left {
+width: 280px;
+background: #0bb5f4;
+}
+
+.resume .resume_left .resume_content {
+padding: 0 25px;
+}
+
+.resume .title {
+margin-bottom: 20px;
+}
+
+.resume .resume_left .bold {
+color: #fff;
+}
+
+.resume .resume_left .regular {
+color: #b1eaff;
+}
+
+.resume .resume_item {
+padding: 25px 0;
+border-bottom: 2px solid #b1eaff;
+}
+
+.resume .resume_left .resume_item:last-child,
+.resume .resume_right .resume_item:last-child {
+border-bottom: 0px;
+}
+
+.resume .resume_left ul li {
+display: flex;
+margin-bottom: 10px;
+align-items: center;
+}
+
+.resume .resume_left ul li:last-child {
+margin-bottom: 0;
+}
+
+.resume .icon i,
+.resume .resume_right .resume_hobby ul li i {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+.resume .resume_left ul li .data {
+color: #b1eaff;
+}
+
+.resume .resume_left .resume_skills ul li {
+display: flex;
+margin-bottom: 10px;
+color: #b1eaff;
+justify-content: space-between;
+align-items: center;
+}
+
+.resume .resume_left .resume_skills ul li .skill_name {
+width: 25%;
+}
+
+.resume .resume_left .resume_social .semi-bold {
+color: #fff;
+margin-bottom: 3px;
+}
+
+.resume .resume_right {
+width: 520px;
+background: #fff;
+padding: 25px;
+}
+
+.resume .resume_right .bold {
+color: #0bb5f4;
+}
+
+.resume .resume_right .resume_work ul,
+.resume .resume_right .resume_education ul {
+padding-left: 40px;
+overflow: hidden;
+}
+
+.resume .resume_right ul li {
+position: relative;
+}
+
+.resume .resume_right ul li .date {
+font-size: 16px;
+font-weight: 500;
+margin-bottom: 15px;
+}
+
+.resume .resume_right ul li .info {
+margin-bottom: 20px;
+}
+
+.resume .resume_right ul li:last-child .info {
+margin-bottom: 0;
+}
+
+.resume .resume_right .resume_work ul li:before,
+.resume .resume_right .resume_education ul li:before {
+content: "";
+position: absolute;
+top: 5px;
+left: -25px;
+width: 6px;
+height: 6px;
+border-radius: 50%;
+border: 2px solid #0bb5f4;
+}
+
+.resume .resume_right .resume_work ul li:after,
+.resume .resume_right .resume_education ul li:after {
+content: "";
+position: absolute;
+top: 14px;
+left: -21px;
+width: 2px;
+height: 115px;
+background: #0bb5f4;
+}
+
+.resume .resume_right .resume_hobby ul {
+display: flex;
+justify-content: space-between;
+}
+
+.resume .resume_right .resume_hobby ul li {
+width: 80px;
+height: 80px;
+border: 2px solid #0bb5f4;
+border-radius: 50%;
+position: relative;
+color: #0bb5f4;
+}
+
+.resume .resume_right .resume_hobby ul li i {
+font-size: 30px;
+}
+
+.resume .resume_right .resume_hobby ul li:before {
+content: "";
+position: absolute;
+top: 40px;
+right: -52px;
+width: 50px;
+height: 2px;
+background: #0bb5f4;
+}
+
+.resume .resume_right .resume_hobby ul li:last-child:before {
+display: none;
+}
+
+</style>
+<body>
+
+<div class="resume">
+<div class="resume_left">
+<div class="resume_content">
+ <div class="resume_item resume_info">
+   <div class="title">
+     <p class="bold">${name}</p>
+     <p class="regular">${title}</p>
+   </div>
+   <ul>
+     <li>
+       <div class="data">
+         ${address}
+       </div>
+     </li>
+     <li>
+       <div class="data">
+         ${number}
+       </div>
+     </li>
+     <li>
+       <div class="data">
+         ${email}
+       </div>
+     </li>
+   </ul>
+ </div>
+ <div class="resume_item resume_skills">
+   <div class="title">
+     <p class="bold">Skills</p>
+   </div>
+   <ul>
+   ${skills.map((val,index)=>{
+    return `<li>
+    <div class="skill_name">
+      ${val}
+    </div>
+  </li>`
+  })}
+   </ul>
+ </div>
+</div>
+</div>
+<div class="resume_right">
+<div class="resume_item resume_about">
+  <div class="title">
+     <p class="bold">About us</p>
+   </div>
+  <p>${objective}</p>
+</div>
+
+<div class="resume_item resume_education">
+<div class="title">
+     <p class="bold">Education</p>
+   </div>
+<ul>
+<li>
+<div class="date">${startFromUniversity} - ${endToUniversity}</div>
+<div class="info">
+       <p class="semi-bold">${university}</p> 
+  </div>
+</li>
+<li>
+<div class="date">${startFromCollege} - ${endToCollege}</div>
+<div class="info">
+       <p class="semi-bold">${college}</p> 
+  </div>
+</li>
+      <li>
+          <div class="date">${startFromSchool} - ${endToSchool}</div> 
+          <div class="info">
+               <p class="semi-bold">${school}</p>
+          </div>
+      </li>
+      
+      
+      
+  </ul>
+</div>
+<div class="resume_item resume_work">
+  <div class="title">
+     <p class="bold">Work Experience/Project</p>
+   </div>
+  <ul>
+<li>
+        <div class="date">${startFromExperience2} - ${endToExperience2}</div>
+        <div class="info">
+               <p class="semi-bold">${experience2Title}</p> 
+            <p>${experience2Description}</p>
+          </div>
+      </li>
+      <li>
+          <div class="date">${startFromExperience1} - ${endToExperience1}</div> 
+          <div class="info">
+               <p class="semi-bold">${experience1Title}</p> 
+            <p>${experience1Description}</p>
+          </div>
+      </li>
+      
+      
+  </ul>
+</div>
+</div>
+</div>
+
+</body>
+</html>
+`;
+    }
+    else{
+      htmlContent=  `
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Resume/CV Design</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+</head>
+<style>
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap");
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+list-style: none;
+font-family: "Montserrat", sans-serif;
+}
+
+body {
+background: #585c68;
+font-size: 14px;
+line-height: 22px;
+color: #555555;
+}
+
+.bold {
+font-weight: 700;
+font-size: 20px;
+text-transform: uppercase;
+}
+
+.semi-bold {
+font-weight: 500;
+font-size: 16px;
+}
+
+.resume {
+width: 800px;
+height: auto;
+display: flex;
+margin: 50px auto;
+}
+
+.resume .resume_left {
+width: 280px;
+background: #0bb5f4;
+}
+
+.resume .resume_left .resume_content {
+padding: 0 25px;
+}
+
+.resume .title {
+margin-bottom: 20px;
+}
+
+.resume .resume_left .bold {
+color: #fff;
+}
+
+.resume .resume_left .regular {
+color: #b1eaff;
+}
+
+.resume .resume_item {
+padding: 25px 0;
+border-bottom: 2px solid #b1eaff;
+}
+
+.resume .resume_left .resume_item:last-child,
+.resume .resume_right .resume_item:last-child {
+border-bottom: 0px;
+}
+
+.resume .resume_left ul li {
+display: flex;
+margin-bottom: 10px;
+align-items: center;
+}
+
+.resume .resume_left ul li:last-child {
+margin-bottom: 0;
+}
+
+.resume .icon i,
+.resume .resume_right .resume_hobby ul li i {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+.resume .resume_left ul li .data {
+color: #b1eaff;
+}
+
+.resume .resume_left .resume_skills ul li {
+display: flex;
+margin-bottom: 10px;
+color: #b1eaff;
+justify-content: space-between;
+align-items: center;
+}
+
+.resume .resume_left .resume_skills ul li .skill_name {
+width: 25%;
+}
+
+
+.resume .resume_left .resume_social .semi-bold {
+color: #fff;
+margin-bottom: 3px;
+}
+
+.resume .resume_right {
+width: 520px;
+background: #fff;
+padding: 25px;
+}
+
+.resume .resume_right .bold {
+color: #0bb5f4;
+}
+
+.resume .resume_right .resume_work ul,
+.resume .resume_right .resume_education ul {
+padding-left: 40px;
+overflow: hidden;
+}
+
+.resume .resume_right ul li {
+position: relative;
+}
+
+.resume .resume_right ul li .date {
+font-size: 16px;
+font-weight: 500;
+margin-bottom: 15px;
+}
+
+.resume .resume_right ul li .info {
+margin-bottom: 20px;
+}
+
+.resume .resume_right ul li:last-child .info {
+margin-bottom: 0;
+}
+
+.resume .resume_right .resume_work ul li:before,
+.resume .resume_right .resume_education ul li:before {
+content: "";
+position: absolute;
+top: 5px;
+left: -25px;
+width: 6px;
+height: 6px;
+border-radius: 50%;
+border: 2px solid #0bb5f4;
+}
+
+.resume .resume_right .resume_work ul li:after,
+.resume .resume_right .resume_education ul li:after {
+content: "";
+position: absolute;
+top: 14px;
+left: -21px;
+width: 2px;
+height: 115px;
+background: #0bb5f4;
+}
+
+.resume .resume_right .resume_hobby ul {
+display: flex;
+justify-content: space-between;
+}
+
+.resume .resume_right .resume_hobby ul li {
+width: 80px;
+height: 80px;
+border: 2px solid #0bb5f4;
+border-radius: 50%;
+position: relative;
+color: #0bb5f4;
+}
+
+.resume .resume_right .resume_hobby ul li i {
+font-size: 30px;
+}
+
+.resume .resume_right .resume_hobby ul li:before {
+content: "";
+position: absolute;
+top: 40px;
+right: -52px;
+width: 50px;
+height: 2px;
+background: #0bb5f4;
+}
+
+.resume .resume_right .resume_hobby ul li:last-child:before {
+display: none;
+}
+
+</style>
+<body>
+
+<div class="resume">
+<div class="resume_left">
+<div class="resume_content">
+ <div class="resume_item resume_info">
+   <div class="title">
+     <p class="bold">${name}</p>
+     <p class="regular">${title}</p>
+   </div>
+   <ul>
+     <li>
+       <div class="data">
+         ${address}
+       </div>
+     </li>
+     <li>
+       <div class="data">
+         ${number}
+       </div>
+     </li>
+     <li>
+       <div class="data">
+         ${email}
+       </div>
+     </li>
+   </ul>
+ </div>
+ <div class="resume_item resume_skills">
+   <div class="title">
+     <p class="bold">Skills</p>
+   </div>
+   <ul>
+   ${skills.map((val,index)=>{
+    return `<li>
+    <div class="skill_name">
+      ${val}
+    </div>
+  </li>`
+  })}
+   </ul>
+ </div>
+</div>
+</div>
+<div class="resume_right">
+<div class="resume_item resume_about">
+  <div class="title">
+     <p class="bold">About us</p>
+   </div>
+  <p>${objective}</p>
+</div>
+
+<div class="resume_item resume_education">
+<div class="title">
+     <p class="bold">Education</p>
+   </div>
+<ul>
+<li>
+<div class="date">${startFromUniversity} - ${endToUniversity}</div>
+<div class="info">
+       <p class="semi-bold">${university}</p> 
+  </div>
+</li>
+<li>
+<div class="date">${startFromCollege} - ${endToCollege}</div>
+<div class="info">
+       <p class="semi-bold">${college}</p> 
+  </div>
+</li>
+      <li>
+          <div class="date">${startFromSchool} - ${endToSchool}</div> 
+          <div class="info">
+               <p class="semi-bold">${school}</p>
+          </div>
+      </li>
+      
+      
+      
+  </ul>
+</div>
+<div class="resume_item resume_work">
+  <div class="title">
+     <p class="bold">Work Experience/Project</p>
+   </div>
+  <ul>
+  <li>
+  <div class="date">${startFromExperience3} - ${endToExperience3}</div>
+  <div class="info">
+         <p class="semi-bold">${experience3Title}</p> 
+      <p>${experience3Description}</p>
+    </div>
+</li>
+<li>
+        <div class="date">${startFromExperience2} - ${endToExperience2}</div>
+        <div class="info">
+               <p class="semi-bold">${experience2Title}</p> 
+            <p>${experience2Description}</p>
+          </div>
+      </li>
+      <li>
+          <div class="date">${startFromExperience1} - ${endToExperience1}</div> 
+          <div class="info">
+               <p class="semi-bold">${experience1Title}</p> 
+            <p>${experience1Description}</p>
+          </div>
+      </li>
+      
+      
+  </ul>
+</div>
+</div>
+</div>
+
+</body>
+</html>
+`;
+    }
+    
+  }
+        
       
       
       
@@ -616,6 +1492,25 @@ body {
       />
       <TextInput
         style={styles.input}
+        onChangeText={(email)=>setEmail(email)}
+        value={email}
+        placeholder="Email"
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={(add)=>setAddress(add)}
+        value={address}
+        placeholder="Address"
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={(num)=>setNumber(num)}
+        value={number}
+        placeholder="Mobile Number"
+        keyboardType="numeric"
+      />
+      <TextInput
+        style={styles.input}
         onChangeText={(title)=>setTitle(title)}
         value={title}
         placeholder="Title"
@@ -628,19 +1523,6 @@ body {
       />
       <TextInput
         style={styles.input}
-        onChangeText={(email)=>setEmail(email)}
-        value={email}
-        placeholder="Email"
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={(num)=>setNumber(num)}
-        value={number}
-        placeholder="Mobile Number"
-        keyboardType="numeric"
-      />
-      <TextInput
-        style={styles.input}
         onChangeText={(sch)=>setSchool(sch)}
         value={school}
         placeholder="School"
@@ -650,13 +1532,13 @@ body {
         style={styles.inputInline}
         onChangeText={(startS)=>setStartFromSchool(startS)}
         value={startFromSchool}
-        placeholder="StartFrom"
+        placeholder="Start Year"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endS)=>setEndToSchool(endS)}
         value={endToSchool}
-        placeholder="EndTo"
+        placeholder="End Year"
       />
       </View>
 
@@ -671,13 +1553,13 @@ body {
         style={styles.inputInline}
         onChangeText={(startC)=>setStartFromCollege(startC)}
         value={startFromCollege}
-        placeholder="StartFrom"
+        placeholder="Start Year"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endC)=>setEndToCollege(endC)}
         value={endToCollege}
-        placeholder="EndTo"
+        placeholder="End Year"
       />
       </View>
 
@@ -692,42 +1574,26 @@ body {
         style={styles.inputInline}
         onChangeText={(startU)=>setStartFromUniversity(startU)}
         value={startFromUniversity}
-        placeholder="StartFrom"
+        placeholder="Start Year"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endU)=>setEndToUniversity(endU)}
         value={endToUniversity}
-        placeholder="EndTo"
+        placeholder="End Year"
       />
       </View>
 
       <TextInput
         style={styles.input}
-        onChangeText={(mas)=>setMaster(mas)}
-        value={master}
-        placeholder="Master"
-      />
-      <View style={{ flexDirection:'row' }}>
-      <TextInput
-        style={styles.inputInline}
-        onChangeText={(startM)=>setStartFromMaster(startM)}
-        value={startFromMaster}
-        placeholder="StartFrom"
-      />
-      <TextInput
-        style={styles.inputInline}
-        onChangeText={(endM)=>setEndToMaster(endM)}
-        value={endToMaster}
-        placeholder="EndTo"
-      />
-      </View>
+        onChangeText={(skill)=>{const sk1 = skill.split(',');
+      let skill1=[]
+      sk1.map((val,index)=>{if(val!==""){skill1.push(val)}
 
-      <TextInput
-        style={styles.input}
-        onChangeText={(skill)=>setSkills(skill)}
-        value={skills}
-        placeholder="Skills"
+    })
+      setSkills(skill1)
+      }}
+        placeholder="Skills (C, C++ etc)"
       />
 
       <TextInput
@@ -749,13 +1615,13 @@ body {
         style={styles.inputInline}
         onChangeText={(startE1)=>setStartFromExperience1(startE1)}
         value={startFromExperience1}
-        placeholder="StartFrom"
+        placeholder="Month Year"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endE1)=>setEndToExperience1(endE1)}
         value={endToExperience1}
-        placeholder="EndTo"
+        placeholder="Month Year"
       />
       </View>
 
@@ -778,13 +1644,13 @@ body {
         style={styles.inputInline}
         onChangeText={(startE2)=>setStartFromExperience2(startE2)}
         value={startFromExperience2}
-        placeholder="StartFrom"
+        placeholder="Month Year"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endE2)=>setEndToExperience2(endE2)}
         value={endToExperience2}
-        placeholder="EndTo"
+        placeholder="Month Year"
       />
       </View>
 
@@ -807,17 +1673,35 @@ body {
         style={styles.inputInline}
         onChangeText={(startE3)=>setStartFromExperience3(startE3)}
         value={startFromExperience3}
-        placeholder="StartFrom"
+        placeholder="Month Year"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endE3)=>setEndToExperience3(endE3)}
         value={endToExperience3}
-        placeholder="EndTo"
+        placeholder="Month Year"
       />
       </View>
 
-      <TouchableOpacity style={{backgroundColor:'#494dff' , width:80 ,height:40, justifyContent:'center',borderRadius:50}} onPress={() =>{ handleSubmit()}}>
+      <Text style={styles.layoutStyle}>Select Layout!!</Text>
+      <Picker
+        selectedValue={layout}
+        style={{ height: 50, width: 250 }}
+        onValueChange={(itemValue, itemIndex) => setLayout(itemValue)}
+      >
+        <Picker.Item label="Work Experience Than Education" value="WETE" />
+        <Picker.Item label="Education Than Work Experience" value="ETWE" />
+      </Picker>
+
+      <TouchableOpacity style={{backgroundColor:'#494dff' , width:80 ,height:40, justifyContent:'center',borderRadius:50}} onPress={() =>{ 
+        if(name==""){
+          Alert.alert("Error","Please eneter your name")
+        }
+        else if(email==""){
+          Alert.alert("Error","Please Enter Your Email")
+        }
+        
+        handleSubmit()}}>
         <Text style={{alignSelf:'center', color:"#FFFFFF"}}>Submit</Text>
       </TouchableOpacity>
       
@@ -837,8 +1721,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#2D3748',
     borderBottomLeftRadius:20,
     borderBottomRightRadius:20
-    
-    
   },
   title: {
     textAlign: 'center',
@@ -846,6 +1728,12 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold'
 
+  },
+  layoutStyle:{
+    textAlign: 'center',
+    color: 'black',
+    fontSize: 20,
+    fontWeight: 'bold'
   },
   body:{
     alignItems: 'center',

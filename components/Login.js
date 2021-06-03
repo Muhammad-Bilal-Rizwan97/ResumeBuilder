@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, SafeAreaView, TextInput, Alert,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, TextInput, Alert,TouchableOpacity, ToastAndroid } from 'react-native';
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios'
@@ -24,7 +24,11 @@ function Login() {
               await AsyncStorage.setItem('email', res.data.user.email)
               await AsyncStorage.setItem('id', res.data.user._id)
               console.log(res.data.user._id)
-              Alert.alert("Successful Login",`${res.data.user.email} Logged In Successfully`)
+              ToastAndroid.showWithGravity(
+                `${res.data.user.email} Logged In Successfully`,
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+              );
               navigation.navigate("Form")
             } catch (e) {
               console.log(e)

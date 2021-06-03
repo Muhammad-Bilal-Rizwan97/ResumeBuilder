@@ -50,14 +50,6 @@ const resumeSchema = new mongoose.Schema({
     type:String,
     default:"09/2021"
   },
-  dateFromM:{
-    type:String,
-    default:"09/2021"
-  },
-  dateToM:{
-    type:String,
-    default:"09/2021"
-  },
   dateFromH:{
     type:String,
     default:"09/2021"
@@ -73,9 +65,6 @@ const resumeSchema = new mongoose.Schema({
     type:String
   },
   university:{
-    type:String
-  },
-  masters:{
     type:String
   },
   experience1Title:{
