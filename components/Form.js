@@ -57,61 +57,7 @@ const Form = () => {
   }, [])
 
   const handleSubmit = async()=>{
-
-    if(name==""){
-      Alert.alert("Error","Please Enter Your Name")
-    }
-    if(email==""){
-      Alert.alert("Error","Please Enter Your Email")
-    }
-    if(title==""){
-      Alert.alert("Error","Please Enter Title")
-    }
-    if(objective==""){
-      Alert.alert("Error","Please Enter Objective")
-    }
-    if(number==""){
-      Alert.alert("Error","Please Enter Your Phone Number")
-    }
-    if(skills.length==0){
-      Alert.alert("Error","Please Enter Your Skills")
-    }
-    if(school==""){
-      Alert.alert("Error","Please Enter Your School Name")
-    }
-    if(school!=""){
-      if(startFromUniversity==""){
-        Alert.alert("Error","Please Enter Start-Date of University")
-      }
-      if(endToUniversity==""){
-        Alert.alert("Error","Please Enter End-Date of University")
-      }
-    }
-
-    if(college==""){
-      Alert.alert("Error","Please Enter Your College Name")
-    }
-    if(college!=""){
-      if(startFromCollege==""){
-        Alert.alert("Error","Please Enter Start-Date of College")
-      }
-      if(endToCollege==""){
-        Alert.alert("Error","Please Enter End-Date of College")
-      }
-    }
-
-    if(university==""){
-      Alert.alert("Error","Please Enter Your University Name")
-    }
-    if(university!=""){
-      if(startFromSchool==""){
-        Alert.alert("Error","Please Enter Start-Date of School")
-      }
-      if(endToSchool==""){
-        Alert.alert("Error","Please Enter End-Date of School")
-      }
-    }
-    
+  
 
     const resume = {
       username:name,
@@ -1725,12 +1671,86 @@ display: none;
 
       <TouchableOpacity testID="ButtonId" style={{backgroundColor:'#494dff' , width:80 ,height:40, justifyContent:'center',borderRadius:50}} onPress={() =>{ 
         if(name==""){
-          Alert.alert("Error","Please eneter your name")
+          Alert.alert("Error","Please Enter your name")
         }
         else if(email==""){
           Alert.alert("Error","Please Enter Your Email")
         }
-        
+        else if(title==""){
+          Alert.alert("Error","Please Enter Title")
+        }
+        else if(objective==""){
+          Alert.alert("Error","Please Enter Objective")
+        }
+        else if(number==""){
+          Alert.alert("Error","Please Enter Your Phone Number")
+        }
+        else if(skills.length==0){
+          Alert.alert("Error","Please Enter Your Skills")
+        }
+        else if(school==""){
+          Alert.alert("Error","Please Enter Your School Name")
+        }
+        else if(school!=""){
+          if(startFromUniversity==""){
+            Alert.alert("Error","Please Enter Start-Date of University")
+          }
+          else if(endToUniversity==""){
+            Alert.alert("Error","Please Enter End-Date of University")
+          }
+        }
+    
+        else if(college==""){
+          Alert.alert("Error","Please Enter Your College Name")
+        }
+        else if(college!=""){
+          if(startFromCollege==""){
+            Alert.alert("Error","Please Enter Start-Date of College")
+          }
+          else if(endToCollege==""){
+            Alert.alert("Error","Please Enter End-Date of College")
+          }
+        }
+    
+        else if(university==""){
+          Alert.alert("Error","Please Enter Your University Name")
+        }
+        else if(university!=""){
+          if(startFromSchool==""){
+            Alert.alert("Error","Please Enter Start-Date of School")
+          }
+          else if(endToSchool==""){
+            Alert.alert("Error","Please Enter End-Date of School")
+          }
+        }
+        else if(experience1Title==""){
+          Alert.alert("Error","Please Enter Experience 1 Title")
+        }
+        else if(experience1Title!=""){
+          if(experience1Description==""){
+            Alert.alert("Error","Please Enter Experience 1 Description")  
+          }
+          else if(startFromExperience1==""){
+            Alert.alert("Error","Please Enter Experience 1 Start-Date")
+          }
+          else if(endToExperience1==""){
+          Alert.alert("Error","Please Enter Experience 1 End-Date")
+        }
+        }
+        else if(experience2Title==""){
+          Alert.alert("Error","Please Enter Experience 2 Title")
+        }
+        else if(experience2Title!=""){
+          if(experience2Description==""){
+            Alert.alert("Error","Please Enter Experience 2 Description")  
+          }
+          else if(startFromExperience2==""){
+            Alert.alert("Error","Please Enter Experience 2 Start-Date")
+          }
+          else if(endToExperience2==""){
+          Alert.alert("Error","Please Enter Experience 2 End-Date")
+        }
+        }
         handleSubmit()}}>
         <Text style={{alignSelf:'center', color:"#FFFFFF"}}>Submit</Text>
       </TouchableOpacity>
