@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, SafeAreaView, TextInput, Alert ,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, TextInput, Alert ,TouchableOpacity, ToastAndroid} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios'
 function Register({navigation}) {
@@ -21,7 +21,11 @@ function Register({navigation}) {
           if(res){
             try {
               await AsyncStorage.setItem('email', res.data.user.email)
-              Alert.alert("Successful Register",`${res.data.user.email} Registered Successfully`)
+              ToastAndroid.showWithGravity(
+                `${res.data.user.email} Register Successfully`,
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+              );
               navigation.navigate("Login")
             } catch (e) {
               //console.log(e.response)
