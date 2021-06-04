@@ -4,10 +4,8 @@ import Axios from 'axios'
 import * as IntentLauncher from 'expo-intent-launcher';
 import * as Print from 'expo-print'
 import * as FileSystem from 'expo-file-system';
-import RadioButtonRN from 'radio-buttons-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import RadioButton from 'radio-button-react-native';
+
 
 const Form = () => {
   const [name, setName] = React.useState("");
@@ -26,6 +24,7 @@ const Form = () => {
   const [startFromUniversity, setStartFromUniversity] = React.useState("");
   const [endToUniversity, setEndToUniversity] = React.useState("");
   const [skills, setSkills] = React.useState([]);
+  const [skills1, setSkills1] = React.useState("");
   const [userId, setId] = React.useState("");
   const [experience1Title, setExperience1Title] = React.useState("");
   const [experience1Description, setExperience1Description] = React.useState("");
@@ -40,6 +39,7 @@ const Form = () => {
   const [startFromExperience3, setStartFromExperience3] = React.useState("");
   const [endToExperience3, setEndToExperience3] = React.useState("");
   const [data1,setData1] = React.useState({})
+
   const [layout,setLayout] = React.useState("WETE")
 
   useEffect(() => {
@@ -1445,7 +1445,7 @@ display: none;
               return uri
         }
             catch (err) {
-            console.error(err);
+           // console.error(err);
         }
       };
       
@@ -1489,18 +1489,21 @@ display: none;
         onChangeText={(name)=>setName(name)}
         value={name}
         placeholder="Username"
+        testID="usernameId"
       />
       <TextInput
         style={styles.input}
         onChangeText={(email)=>setEmail(email)}
         value={email}
         placeholder="Email"
+        testID="emailId"
       />
       <TextInput
         style={styles.input}
         onChangeText={(add)=>setAddress(add)}
         value={address}
         placeholder="Address"
+        testID="addressId"
       />
       <TextInput
         style={styles.input}
@@ -1508,24 +1511,28 @@ display: none;
         value={number}
         placeholder="Mobile Number"
         keyboardType="numeric"
+        testID="numberId"
       />
       <TextInput
         style={styles.input}
         onChangeText={(title)=>setTitle(title)}
         value={title}
         placeholder="Title"
+        testID="titleId"
       />
       <TextInput
         style={styles.input}
         onChangeText={(obj)=>setObjective(obj)}
         value={objective}
         placeholder="Objective"
+        testID="objectiveId"
       />
       <TextInput
         style={styles.input}
         onChangeText={(sch)=>setSchool(sch)}
         value={school}
         placeholder="School"
+        testID="schoolId"
       />
       <View style={{ flexDirection:'row' }}>
       <TextInput
@@ -1533,12 +1540,14 @@ display: none;
         onChangeText={(startS)=>setStartFromSchool(startS)}
         value={startFromSchool}
         placeholder="Start Year"
+        testID="schoolStartId"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endS)=>setEndToSchool(endS)}
         value={endToSchool}
         placeholder="End Year"
+        testID="schoolEndId"
       />
       </View>
 
@@ -1547,6 +1556,7 @@ display: none;
         onChangeText={(coll)=>setCollege(coll)}
         value={college}
         placeholder="College"
+        testID="collegeId"
       />
       <View style={{ flexDirection:'row' }}>
       <TextInput
@@ -1554,12 +1564,14 @@ display: none;
         onChangeText={(startC)=>setStartFromCollege(startC)}
         value={startFromCollege}
         placeholder="Start Year"
+        testID="collegeStartId"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endC)=>setEndToCollege(endC)}
         value={endToCollege}
         placeholder="End Year"
+        testID="collegeEndId"
       />
       </View>
 
@@ -1568,6 +1580,7 @@ display: none;
         onChangeText={(uni)=>setUniversity(uni)}
         value={university}
         placeholder="University"
+        testID="universityId"
       />
       <View style={{ flexDirection:'row' }}>
       <TextInput
@@ -1575,23 +1588,28 @@ display: none;
         onChangeText={(startU)=>setStartFromUniversity(startU)}
         value={startFromUniversity}
         placeholder="Start Year"
+        testID="uniStartId"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endU)=>setEndToUniversity(endU)}
         value={endToUniversity}
         placeholder="End Year"
+        testID="uniEndId"
       />
       </View>
 
       <TextInput
         style={styles.input}
+        testID="skillsId"
+        value={skills1}
         onChangeText={(skill)=>{const sk1 = skill.split(',');
       let skill1=[]
       sk1.map((val,index)=>{if(val!==""){skill1.push(val)}
 
     })
-      setSkills(skill1)
+      setSkills(skill1);
+      setSkills1(skill)
       }}
         placeholder="Skills (C, C++ etc)"
       />
@@ -1601,6 +1619,7 @@ display: none;
         onChangeText={(exp1Title)=>setExperience1Title(exp1Title)}
         value={experience1Title}
         placeholder="Experience 1 Title"
+        testID="exp1TitleId"
       />
 
       <TextInput
@@ -1608,6 +1627,7 @@ display: none;
         onChangeText={(exp1Desc)=>setExperience1Description(exp1Desc)}
         value={experience1Description}
         placeholder="Experience 1 Description"
+        testID="exp1DescId"
       />
 
       <View style={{ flexDirection:'row' }}>
@@ -1616,12 +1636,14 @@ display: none;
         onChangeText={(startE1)=>setStartFromExperience1(startE1)}
         value={startFromExperience1}
         placeholder="Month Year"
+        testID="exp1StartId"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endE1)=>setEndToExperience1(endE1)}
         value={endToExperience1}
         placeholder="Month Year"
+        testID="exp1EndId"
       />
       </View>
 
@@ -1630,6 +1652,7 @@ display: none;
         onChangeText={(exp2Title)=>setExperience2Title(exp2Title)}
         value={experience2Title}
         placeholder="Experience 2 Title"
+        testID="exp2TitleId"
       />
 
       <TextInput
@@ -1637,6 +1660,7 @@ display: none;
         onChangeText={(exp2Desc)=>setExperience2Description(exp2Desc)}
         value={experience2Description}
         placeholder="Experience 2 Description"
+        testID="exp2DescId"
       />
 
       <View style={{ flexDirection:'row' }}>
@@ -1645,12 +1669,14 @@ display: none;
         onChangeText={(startE2)=>setStartFromExperience2(startE2)}
         value={startFromExperience2}
         placeholder="Month Year"
+        testID="exp2StartId"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endE2)=>setEndToExperience2(endE2)}
         value={endToExperience2}
         placeholder="Month Year"
+        testID="exp2EndId"
       />
       </View>
 
@@ -1659,6 +1685,7 @@ display: none;
         onChangeText={(exp3Title)=>setExperience3Title(exp3Title)}
         value={experience3Title}
         placeholder="Experience 3 Title"
+        testID="exp3TitleId"
       />
 
       <TextInput
@@ -1666,6 +1693,7 @@ display: none;
         onChangeText={(exp3Desc)=>setExperience3Description(exp3Desc)}
         value={experience3Description}
         placeholder="Experience 3 Description"
+        testID="exp3DescId"
       />
 
       <View style={{ flexDirection:'row' }}>
@@ -1674,12 +1702,14 @@ display: none;
         onChangeText={(startE3)=>setStartFromExperience3(startE3)}
         value={startFromExperience3}
         placeholder="Month Year"
+        testID="exp3StartId"
       />
       <TextInput
         style={styles.inputInline}
         onChangeText={(endE3)=>setEndToExperience3(endE3)}
         value={endToExperience3}
         placeholder="Month Year"
+        testID="exp3EndId"
       />
       </View>
 
@@ -1693,7 +1723,7 @@ display: none;
         <Picker.Item label="Education Than Work Experience" value="ETWE" />
       </Picker>
 
-      <TouchableOpacity style={{backgroundColor:'#494dff' , width:80 ,height:40, justifyContent:'center',borderRadius:50}} onPress={() =>{ 
+      <TouchableOpacity testID="ButtonId" style={{backgroundColor:'#494dff' , width:80 ,height:40, justifyContent:'center',borderRadius:50}} onPress={() =>{ 
         if(name==""){
           Alert.alert("Error","Please eneter your name")
         }

@@ -5,14 +5,16 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.5",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.5",
+    "@testing-library/react-native": "^7.2.0",
     "axios": "^0.21.1",
-    "expo": "~41.0.1",
+    "expo": "^41.0.1",
     "expo-file-system": "~11.0.2",
     "expo-intent-launcher": "~9.0.0",
     "expo-print": "~10.1.0",
@@ -31,7 +33,19 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "jest-expo": "^41.0.0",
+    "react-test-renderer": "^17.0.2"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "setupFilesAfterEnv": [
+      "./setupTests.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|@react-native-async-storage/async-storage|expo-print|expo-intent-launcher|radio-buttons-react-native|react-clone-referenced-element|galio-framework|react-native-vector-icons|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+    ]
   },
   "private": true
 }

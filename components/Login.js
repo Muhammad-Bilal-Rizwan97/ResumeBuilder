@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, Button, SafeAreaView, TextInput, Alert,Touchabl
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Axios from 'axios'
-function Login() {
-    const navigation=useNavigation()
+function Login({navigation}) {
+   
     const [emailLogin, setEmailLogin] = React.useState("");
     const [passwordLogin, setPasswordLogin] = React.useState("");
 
@@ -61,6 +61,7 @@ function Login() {
             <SafeAreaView style={styles.body}>
                 <TextInput
                     style={styles.input}
+                    testID="emailId"
                     onChangeText={(email)=>setEmailLogin(email)}
                     value={emailLogin}
                     placeholder="Email"
@@ -69,11 +70,12 @@ function Login() {
                     style={styles.input}
                     onChangeText={(pass)=>setPasswordLogin(pass)}
                     value={passwordLogin}
+                    testID="passwordId"
                     placeholder="Password"
                     secureTextEntry={true}
                     
                 />
-                  <TouchableOpacity style={{backgroundColor:'#494dff' , width:80 ,height:40, justifyContent:'center',borderRadius:50}} onPress={()=>handleLogin()}>
+                  <TouchableOpacity testID="buttonId" style={{backgroundColor:'#494dff' , width:80 ,height:40, justifyContent:'center',borderRadius:50}} onPress={()=>handleLogin()}>
                   <Text style={{alignSelf:'center', color:"#FFFFFF"}}>Login</Text>
                 </TouchableOpacity>
             </SafeAreaView>

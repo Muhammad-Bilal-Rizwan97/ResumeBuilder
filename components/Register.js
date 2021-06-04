@@ -5,7 +5,7 @@ import Axios from 'axios'
 function Register({navigation}) {
     const [emailRegister, setEmailRegister] = React.useState("");
     const [passwordRegister, setPasswordRegister] = React.useState("");
-
+   
     const handleSubmit = async()=>{
 
       if(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(emailRegister)){
@@ -24,7 +24,7 @@ function Register({navigation}) {
               Alert.alert("Successful Register",`${res.data.user.email} Registered Successfully`)
               navigation.navigate("Login")
             } catch (e) {
-              console.log(e.response)
+              //console.log(e.response)
               
             }
           } 
@@ -55,21 +55,24 @@ function Register({navigation}) {
             </View>  
             <SafeAreaView style={styles.body}>
                 <TextInput
+                    testID="emailId"
                     style={styles.input}
                     onChangeText={(email)=>setEmailRegister(email)}
                     value={emailRegister}
                     placeholder="Email"
                 />
                 <TextInput
+                    testID="passwordId"
                     style={styles.input}
                     onChangeText={(pass)=>setPasswordRegister(pass)}
                     value={passwordRegister}
                     placeholder="Password"
                     secureTextEntry={true}
                 />
-                <TouchableOpacity style={{backgroundColor:'#494dff' , width:80 ,height:40, justifyContent:'center',borderRadius:50}} onPress={() =>handleSubmit()}>
+                <TouchableOpacity testID="buttonId" style={{backgroundColor:'#494dff' , width:80 ,height:40, justifyContent:'center',borderRadius:50}} onPress={() =>{handleSubmit()}}>
                   <Text style={{alignSelf:'center', color:"#FFFFFF"}}>Register</Text>
                 </TouchableOpacity>
+               
                 
             </SafeAreaView>
       </View>
