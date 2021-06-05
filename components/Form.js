@@ -1751,7 +1751,9 @@ display: none;
           Alert.alert("Error","Please Enter Experience 2 End-Date")
         }
         }
-        handleSubmit()}}>
+        if(name!="" && email!="" && title!="" && address!="" && objective!="" && number!="" && skills.length!=0 && school!="" && startFromSchool!="" && endToSchool!="" && college!="" && startFromCollege!="" && endToCollege!="" && university!="" && startFromUniversity!="" && endToUniversity!="" && experience1Title!="" && experience1Description!="" && startFromExperience1!="" && endToExperience1!="" && experience2Title!="" && experience2Description!="" && startFromExperience2!="" && endToExperience2!=""){
+          handleSubmit()
+        }}}>
         <Text style={{alignSelf:'center', color:"#FFFFFF"}}>Submit</Text>
       </TouchableOpacity>
       
